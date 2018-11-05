@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}App:project:entry{% endblock %}
+
+{% block body %}
+<div class="container">
+ <div class="header">
+     <h1 class="title">Project tutorial</h1>
+     <p class="lead description">A basic description of the project, built in Symfony, styled in Bootstrap 3, secured by Auth0.</p>
+ </div>
+
+ <div class="row">
+     <div class="col-sm-8 main">
+         <div class="project">
+             <h2 class="project-title">{{ project.title }}</h2>
+             <p class="project-meta">
+                {{ project.createdAt|date('F j, Y') }} by <a href="{{ path('user', {'username': project.owner.userName|url_encode }) }}">
+                    {{ project.owner.userName }}
+                </a>
+            </p>
+             <h3>Description:</h3>
+             <p>{{ project.description|raw }}</p>
+
+             <h3>Files:</h3>
+         </div>
+     </div>
+ </div>
+</div>
+
+<h2>This is project/project_entry.html.twig</h2>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+
+{% block title %}App:project:entries{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="header">
+        <h1 class="title">Projects</h1>
+        <p class="lead description">A basic description of the project, built in Symfony, styled in Bootstrap 3, secured by <a href="http://auth0.com">Auth0</a>.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 main">
+            {% for project in projects %}
+                {% set paragraphs = project.description|split('</p>') %}
+                {% set firstParagraph = paragraphs|first ~ '</p>' %}
+                <div class="project">
+                    <h2 class="project-title">
+                        <a href="{{ path('project-entry', {'id': project.id}) }}">
+                            {{ project.title }}
+                        </a>
+                    </h2>
+                    <p class="project-meta">
+                        {{ project.getCreatedAt|date('F j, Y') }} by
+
+                        {% if project.owner %}
+                            <a href="{{ path('user', {'username': project.owner.userName|url_encode }) }}">
+                                {{ project.owner.userName }}
+                            </a>
+                        {% else %}
+                            Unknown Author
+                        {% endif %}
+                    </p>
+                    {{ firstParagraph|raw }}<br />
+                    <a href="{{ path('project-entry', {'id': project.id}) }}">See details</a>
+                </div>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    You have no Projects. Please log in and create a project.
+                </div>
+            {% endfor %}
+
+            {% set canPrevious = page > 1 %}
+            {% set canNext = (page * entryLimit) < totalProjects %}
+            <nav>
+                <ul class="pager">
+                    <li class="previous {% if canPrevious == false %}disabled{% endif %}">
+                        <a href="{% if canPrevious %}{{ path('entries', {'page': page - 1}) }}{% endif %}">
+                            <span aria-hidden="true">&larr;</span> Older
+                        </a>
+                    </li>
+                    <li class="next {% if canNext == false %}disabled{% endif %}">
+                        <a href="{% if canNext %}{{ path('entries', {'page': page + 1}) }}{% endif %}">
+                            Newer <span aria-hidden="true">&rarr;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<h2>This is project/entries.html.twig</h2>
+
+{% endblock %}

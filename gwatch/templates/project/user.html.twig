@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}App:project:user{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="header">
+        <h1 class="title">Owner</h1>
+        <p class="lead description">A brief look into the owner.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 main">
+            <div class="project">
+                <h2 class="project-title">{{ user.name|raw }}</h2>
+
+                <p>Name: {{ user.name|raw }}</p>
+                <p>User Name: {{ user.userName|raw }}</p>
+                <p>Email: {{ user.email|raw }}</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>This is project/user.html.twig</h2>
+{{ dump(app.user) }}
+{% endblock %}
